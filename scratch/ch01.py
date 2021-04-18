@@ -1,6 +1,7 @@
 from PIL import Image
 from pylab import *
 from numpy import *
+import imtools
 
 pil_im = Image.open('../data/empire.jpg')
 # pil_im.show()
@@ -78,10 +79,15 @@ im[-2,:]
 
 im = array(Image.open('../data/empire.jpg').convert('L'))
 
+# graylevel transforms
+
+## inversion
 im2 = 255 - im
 
+## clamping range between 100 and 200
 im3 = (100.0/255) * im + 100
 
+## make darker values darker (quadratic transformation)
 im4 = 255.0 * (im/255.0)**2
 
 print(int(im.min()), int(im.max()))
@@ -90,7 +96,13 @@ print(int(im3.min()), int(im3.max()))
 print(int(im4.min()), int(im4.max()))
 
 pil_im = Image.fromarray(im4)
+# pil_im.show()
+
+# histogram equalization
+# use-case: equalize intensities, increase contrast
+im = array(Image.open('../data/AquaTermi_lowcontrast.JPG').convert('L'))
+pil_im = Image.fromarray(im)
 pil_im.show()
-
-
-
+im2, cdf = imtools.histeq(im)
+pil_im = Image.fromarray(im2)
+pil_im.show()
