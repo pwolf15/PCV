@@ -2,6 +2,7 @@ from PIL import Image
 from pylab import *
 from numpy import *
 import imtools
+import pca
 
 pil_im = Image.open('../data/empire.jpg')
 # pil_im.show()
@@ -102,7 +103,29 @@ pil_im = Image.fromarray(im4)
 # use-case: equalize intensities, increase contrast
 im = array(Image.open('../data/AquaTermi_lowcontrast.JPG').convert('L'))
 pil_im = Image.fromarray(im)
-pil_im.show()
+# pil_im.show()
 im2, cdf = imtools.histeq(im)
 pil_im = Image.fromarray(im2)
-pil_im.show()
+# pil_im.show()
+
+imlist = imtools.get_imlist("../data/a_thumbs")
+im = array(Image.open(imlist[0]))
+m,n = im.shape[0:2]
+imnbr = len(imlist)
+
+immatrix = array([array(Image.open(im)).flatten()
+            for im in imlist],'f')
+
+# perform PCA
+V,S,immean = pca.pca(immatrix)
+
+# show some images (mean and 7 first modes)
+figure()
+gray()
+subplot(2,4,1)
+imshow(immean.reshape(m,n))
+for i in range(7):
+    subplot(2,4,i+2)
+    imshow(V[i].reshape(m,n))
+
+show()
