@@ -3,6 +3,7 @@ from pylab import *
 from numpy import *
 import imtools
 import pca
+import pickle
 
 pil_im = Image.open('../data/empire.jpg')
 # pil_im.show()
@@ -120,12 +121,25 @@ immatrix = array([array(Image.open(im)).flatten()
 V,S,immean = pca.pca(immatrix)
 
 # show some images (mean and 7 first modes)
-figure()
+# figure()
 gray()
 subplot(2,4,1)
-imshow(immean.reshape(m,n))
+# imshow(immean.reshape(m,n))
 for i in range(7):
     subplot(2,4,i+2)
     imshow(V[i].reshape(m,n))
 
-show()
+# show()
+
+# save mean and principal components
+with open('font_pca_modes.pkl', 'wb') as f:
+    pickle.dump(immean,f)
+    pickle.dump(V,f)
+    f.close()
+
+with open('font_pca_modes.pkl', 'rb') as f:
+    immean = pickle.load(f)
+    V = pickle.load(f)
+    f.close()
+
+savetxt('test.txt',x,'%i')
