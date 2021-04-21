@@ -9,3 +9,7 @@ Progress
 * Pickling: take almost any Python object and convert it to a string representation
 * Unpickling: reconstructing Python object from string
 * Gaussian blurring, example of image convolution
+* Image gradient, image derivatives
+* Prewitt filters, sobel filters
+* sobel filter used for image derivative; positive => bright, negative derivative => dark
+* Gaussian derivative filters: more robust to image noise and derivatives

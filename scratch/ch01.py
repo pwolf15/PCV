@@ -154,4 +154,32 @@ for i in range(3):
     im2[:,:,i] = filters.gaussian_filter(im[:,:,i],1)
 im2 = uint8(im2)
 pil_im = Image.fromarray(im2)
+# pil_im.show()
+
+im = array(Image.open('../data/empire.jpg').convert('L'))
+
+# Sobel derivative filter
+imx = zeros(im.shape)
+filters.sobel(im,1,imx)
+
+imy = zeros(im.shape)
+filters.sobel(im,0,imy)
+
+magnitude = sqrt(imx**2+imy**2)
+
+pil_im = Image.fromarray(imx)
+# pil_im.show()
+
+pil_im = Image.fromarray(magnitude)
+# pil_im.show()
+
+im = array(Image.open('../data/empire.jpg').convert('L'))
+
+sigma = 5
+imx = zeros(im.shape)
+filters.gaussian_filter(im, (sigma,sigma), (0,1), imx)
+
+imy = zeros(im.shape)
+filters.gaussian_filter(im, (sigma,sigma), (1,0), imy)
+pil_im = Image.fromarray(imy)
 pil_im.show()
