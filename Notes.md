@@ -8,3 +8,4 @@ Progress
 
 * Pickling: take almost any Python object and convert it to a string representation
 * Unpickling: reconstructing Python object from string
+* Gaussian blurring, example of image convolution

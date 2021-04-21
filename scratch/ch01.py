@@ -4,6 +4,7 @@ from numpy import *
 import imtools
 import pca
 import pickle
+from scipy.ndimage import filters
 
 pil_im = Image.open('../data/empire.jpg')
 # pil_im.show()
@@ -142,4 +143,15 @@ with open('font_pca_modes.pkl', 'rb') as f:
     V = pickle.load(f)
     f.close()
 
-savetxt('test.txt',x,'%i')
+# savetxt('test.txt',x,'%i')
+
+im = array(Image.open('../data/empire.jpg').convert('L'))
+im2 = filters.gaussian_filter(im, 5)
+
+im = array(Image.open('../data/empire.jpg'))
+im2 = zeros(im.shape)
+for i in range(3):
+    im2[:,:,i] = filters.gaussian_filter(im[:,:,i],1)
+im2 = uint8(im2)
+pil_im = Image.fromarray(im2)
+pil_im.show()
