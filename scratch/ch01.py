@@ -5,6 +5,7 @@ import imtools
 import pca
 import pickle
 from scipy.ndimage import filters
+from scipy.ndimage import measurements, morphology
 
 pil_im = Image.open('../data/empire.jpg')
 # pil_im.show()
@@ -167,19 +168,39 @@ filters.sobel(im,0,imy)
 
 magnitude = sqrt(imx**2+imy**2)
 
+pil_im = Image.fromarray(imy)
+# pil_im.show()
+
 pil_im = Image.fromarray(imx)
 # pil_im.show()
 
 pil_im = Image.fromarray(magnitude)
 # pil_im.show()
 
+# Gaussian filters
 im = array(Image.open('../data/empire.jpg').convert('L'))
+pil_im = Image.fromarray(im)
+# pil_im.show()
 
-sigma = 5
-imx = zeros(im.shape)
-filters.gaussian_filter(im, (sigma,sigma), (0,1), imx)
+for sigma in range(5, 6):
 
-imy = zeros(im.shape)
-filters.gaussian_filter(im, (sigma,sigma), (1,0), imy)
-pil_im = Image.fromarray(imy)
-pil_im.show()
+    imx = zeros(im.shape)
+    filters.gaussian_filter(im, (sigma,sigma), (0,1), imx)
+    pil_im = Image.fromarray(imx)
+    # pil_im.show()
+
+    imy = zeros(im.shape)
+    filters.gaussian_filter(im, (sigma,sigma), (1,0), imy)
+    pil_im = Image.fromarray(imy)
+    # pil_im.show()
+
+im = array(Image.open('../data/houses.png').convert('L'))
+im = 1*(im<128)
+
+labels, nbr_objects = measurements.label(im)
+print("Number of objects: ", nbr_objects)
+
+# morphology - opening to separate objects better
+im_open = morphology.binary_opening(im,ones((9,5)),iterations=1)
+labels_open, nbr_objects_open = measurements.label(im_open)
+print("Number of objects:",nbr_objects_open)

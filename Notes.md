@@ -13,3 +13,4 @@ Progress
 * Prewitt filters, sobel filters
 * sobel filter used for image derivative; positive => bright, negative derivative => dark
 * Gaussian derivative filters: more robust to image noise and derivatives
+* morphology: framework and collection of image processing methods for measuring and analyizng basic shapes
