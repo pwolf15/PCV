@@ -6,6 +6,11 @@ import pca
 import pickle
 from scipy.ndimage import filters
 from scipy.ndimage import measurements, morphology
+import scipy.io
+import scipy.misc
+import imageio
+from numpy import random
+import rof
 
 pil_im = Image.open('../data/empire.jpg')
 # pil_im.show()
@@ -204,3 +209,35 @@ print("Number of objects: ", nbr_objects)
 im_open = morphology.binary_opening(im,ones((9,5)),iterations=1)
 labels_open, nbr_objects_open = measurements.label(im_open)
 print("Number of objects:",nbr_objects_open)
+
+# MATLAB file I/O
+data = {}
+data['x'] = 1234
+scipy.io.savemat('test.mat',data)
+data2 = scipy.io.loadmat('test.mat')
+print(data2)
+
+imageio.imwrite('test.jpg', im)
+
+# create synthetic image with noise
+im = zeros((500,500))
+im[100:400,100:400] = 128
+im[200:300,200:300] = 255
+im = im + 30*random.standard_normal((500,500))
+
+U,T = rof.denoise(im,im)
+G = filters.gaussian_filter(im,10)
+
+# save the result
+imageio.imwrite('synth_rof.png',Image.fromarray(U))
+imageio.imwrite('synth_gaussian.png',Image.fromarray(G))
+
+im = array(Image.open('../data/empire.jpg').convert('L'))
+U,T = rof.denoise(im,im)
+
+figure()
+gray()
+imshow(U)
+axis('equal')
+axis('off')
+show()

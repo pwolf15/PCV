@@ -14,3 +14,8 @@ Progress
 * sobel filter used for image derivative; positive => bright, negative derivative => dark
 * Gaussian derivative filters: more robust to image noise and derivatives
 * morphology: framework and collection of image processing methods for measuring and analyizng basic shapes
+* Image de-noising: removing image noise while preserving details and structures
+* Rudin-Osher-Fatemi de-noising model (ROF)
+* ROF Solver based on Chambolle algorithm
+* roll() method: rolls values of array cyclically around an access
+* linalg.norm: difference between two arrays
