@@ -19,3 +19,9 @@ Progress
 * ROF Solver based on Chambolle algorithm
 * roll() method: rolls values of array cyclically around an access
 * linalg.norm: difference between two arrays
+* What is a Gaussian image derivative? Image derivative can be computed using convolutional kernels of size 2 or 3.
+
+Exercise
+
+1. Applying gaussian blur for increasing values of sigma? This increases the amount of blurring due to the size of the convolutional kernel.Gaussian filter acts as low pass filter. High frequency = edges. Sigma controls variation around mean. Larger sigma == more variance. Increase sigma == look at more broad scene.
+2. Unsharp masking: blur image and subtracting blurred version from original. End image is sharpened image. My example looks off.

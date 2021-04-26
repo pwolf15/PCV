@@ -187,16 +187,21 @@ im = array(Image.open('../data/empire.jpg').convert('L'))
 pil_im = Image.fromarray(im)
 # pil_im.show()
 
-for sigma in range(5, 6):
+sigmas = [2, 5, 10]
+for sigma in sigmas:
 
-    imx = zeros(im.shape)
-    filters.gaussian_filter(im, (sigma,sigma), (0,1), imx)
+    imx = ones(im.shape)
+    filters.gaussian_filter(im, (sigma,sigma), (0,1), output=imx)
     pil_im = Image.fromarray(imx)
     # pil_im.show()
 
     imy = zeros(im.shape)
     filters.gaussian_filter(im, (sigma,sigma), (1,0), imy)
     pil_im = Image.fromarray(imy)
+    # pil_im.show()
+
+    magnitude = sqrt(imx**2 + imy**2)
+    pl_im = Image.fromarray(magnitude)
     # pil_im.show()
 
 im = array(Image.open('../data/houses.png').convert('L'))
@@ -237,7 +242,60 @@ U,T = rof.denoise(im,im)
 
 figure()
 gray()
-imshow(U)
-axis('equal')
-axis('off')
-show()
+# imshow(U)
+# axis('equal')
+# axis('off')
+# show()
+
+im = array(Image.open('../data/tubingen.jpg').convert('L'))
+
+for sigma in range(1,4):
+
+    im2 = filters.gaussian_filter(im, sigma)
+    pil_im = Image.fromarray(im2)
+    # pil_im.show(title='sigma ' + str(sigma))
+
+# unsharp masking
+
+## grayscale
+pil_im = Image.fromarray(im)
+# pil_im.show()
+blurred = filters.gaussian_filter(im, 1)
+unsharp_masked = im - blurred
+pil_im = Image.fromarray(unsharp_masked)
+# pil_im.show()
+
+im = array(Image.open('../data/lenna.png').convert('L'))
+
+pil_im = Image.fromarray(im)
+# pil_im.show()
+blurred = filters.gaussian_filter(im, 1)
+unsharp_masked = im - blurred
+pil_im = Image.fromarray(unsharp_masked)
+# pil_im.show()
+
+# color
+im_r, im_g, im_b = Image.open('../data/lenna.png').split()
+im_r = array(im_r)
+im_g = array(im_g)
+im_b = array(im_b)
+
+blurred = filters.gaussian_filter(im_r, 1)
+unsharp_masked = im_r - blurred
+im_r = unsharp_masked
+# pil_im.show()
+
+blurred = filters.gaussian_filter(im_g, 1)
+unsharp_masked = im_g - blurred
+im_g = unsharp_masked
+
+blurred = filters.gaussian_filter(im_b, 1)
+unsharp_masked = im_b - blurred
+im_b = unsharp_masked
+
+im_r = Image.fromarray(im_r)
+im_g = Image.fromarray(im_g)
+im_b = Image.fromarray(im_b)
+
+pil_im = Image.merge('RGB', (im_r, im_g, im_b))
+pil_im.show()
