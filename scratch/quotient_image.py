@@ -2,20 +2,11 @@ from PIL import Image
 from pylab import *
 from numpy import *
 import imtools
-import pca
-import pickle
 from scipy.ndimage import filters
-from scipy.ndimage import measurements, morphology
-import scipy.io
 import scipy.misc
-import imageio
-from numpy import random
-import rof
 
-def quotient_image(path):
+def quotient_image(im):
     
-    # blurred image
-    im = array(Image.open(path).convert('L'))
     pil_im = Image.fromarray(im)
     pil_im.show()
 
@@ -27,10 +18,23 @@ def quotient_image(path):
     #   quotient image is a technique in image normalization
     #   it's an alternative to histogram normalization
     Q = im / (G + 0.0001)
-    Q = Q * im
+    Q = clip(128 * Q, 0, 255)
 
-    pil_im = Image.fromarray(Q)
-    pil_im.show()
+    return Q
 
-quotient_image('../data/empire.jpg')
-quotient_image('../data/tubingen.jpg')
+# original
+path = '../data/empire.jpg'
+im = array(Image.open(path).convert('L'))
+hist_im, cdf = imtools.histeq(im)
+Q = quotient_image(im)
+
+figure(figsize=(16,16))
+gray()
+subplot(3,2,1)
+title('original')
+imshow(im)
+
+subplot(3,2,2)
+title('original hist')
+hist(im.flatten(), 256)
+
