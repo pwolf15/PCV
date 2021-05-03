@@ -247,14 +247,6 @@ gray()
 # axis('off')
 # show()
 
-im = array(Image.open('../data/tubingen.jpg').convert('L'))
-
-for sigma in range(1,4):
-
-    im2 = filters.gaussian_filter(im, sigma)
-    pil_im = Image.fromarray(im2)
-    # pil_im.show(title='sigma ' + str(sigma))
-
 # unsharp masking
 
 ## grayscale
