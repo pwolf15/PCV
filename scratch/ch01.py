@@ -257,37 +257,3 @@ unsharp_masked = im - blurred
 pil_im = Image.fromarray(unsharp_masked)
 # pil_im.show()
 
-im = array(Image.open('../data/lenna.png').convert('L'))
-
-pil_im = Image.fromarray(im)
-# pil_im.show()
-blurred = filters.gaussian_filter(im, 1)
-unsharp_masked = im - blurred
-pil_im = Image.fromarray(unsharp_masked)
-# pil_im.show()
-
-# color
-im_r, im_g, im_b = Image.open('../data/lenna.png').split()
-im_r = array(im_r)
-im_g = array(im_g)
-im_b = array(im_b)
-
-blurred = filters.gaussian_filter(im_r, 1)
-unsharp_masked = im_r - blurred
-im_r = unsharp_masked
-# pil_im.show()
-
-blurred = filters.gaussian_filter(im_g, 1)
-unsharp_masked = im_g - blurred
-im_g = unsharp_masked
-
-blurred = filters.gaussian_filter(im_b, 1)
-unsharp_masked = im_b - blurred
-im_b = unsharp_masked
-
-im_r = Image.fromarray(im_r)
-im_g = Image.fromarray(im_g)
-im_b = Image.fromarray(im_b)
-
-pil_im = Image.merge('RGB', (im_r, im_g, im_b))
-pil_im.show()
