@@ -42,34 +42,34 @@ imshow(uint8(masked))
 
 show()
 
-# pil_im = Image.fromarray(im)
-# # pil_im.show()
+# color
+im_r, im_g, im_b = Image.open('../data/lenna.png').split()
+im_r = array(im_r)
+im_g = array(im_g)
+im_b = array(im_b)
+mask_r = unsharp_mask(im_r)
+mask_g = unsharp_mask(im_g)
+mask_b = unsharp_mask(im_b)
+masked_r = clip(im_r - 1*mask_r, 0, 255) # back to uint
+masked_g = clip(im_g - 1*mask_g, 0, 255) # back to uint
+masked_b = clip(im_b - 1*mask_b, 0, 255) # back to uint
+im_r = Image.fromarray(masked_r)
+im_g = Image.fromarray(masked_g)
+im_b = Image.fromarray(masked_b)
 
-# pil_im = Image.fromarray(unsharp_masked)
-# # pil_im.show()
+# original
+figure(figsize=(16,16))
+subplot(2,2,1)
+title('original')
+imshow(Image.open('../data/lenna.png'))
 
-# # color
-# im_r, im_g, im_b = Image.open('../data/lenna.png').split()
-# im_r = array(im_r)
-# im_g = array(im_g)
-# im_b = array(im_b)
+# sharpened
+rgbArray = np.zeros((512,512,3), 'uint8')
+rgbArray[..., 0] = im_r
+rgbArray[..., 1] = im_g
+rgbArray[..., 2] = im_b
+subplot(2,2,2)
+title('sharpened')
+imshow(rgbArray)
 
-# blurred = filters.gaussian_filter(im_r, 1)
-# unsharp_masked = im_r - blurred
-# im_r = unsharp_masked
-# # pil_im.show()
-
-# blurred = filters.gaussian_filter(im_g, 1)
-# unsharp_masked = im_g - blurred
-# im_g = unsharp_masked
-
-# blurred = filters.gaussian_filter(im_b, 1)
-# unsharp_masked = im_b - blurred
-# im_b = unsharp_masked
-
-# im_r = Image.fromarray(im_r)
-# im_g = Image.fromarray(im_g)
-# im_b = Image.fromarray(im_b)
-
-# pil_im = Image.merge('RGB', (im_r, im_g, im_b))
-# pil_im.show()
+show()
