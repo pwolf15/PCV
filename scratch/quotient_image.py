@@ -7,17 +7,14 @@ import scipy.misc
 
 def quotient_image(im):
     
-    pil_im = Image.fromarray(im)
-    pil_im.show()
-
     # gaussian
-    G = filters.gaussian_filter(im,5)
+    G = filters.gaussian_filter(im, 128)
     pil_im = Image.fromarray(G)
 
     # quotient image: Q = im / gaussian
     #   quotient image is a technique in image normalization
     #   it's an alternative to histogram normalization
-    Q = im / (G + 0.0001)
+    Q = 1.0*im / (G + 0.0001)
     Q = clip(128 * Q, 0, 255)
 
     return Q
@@ -38,3 +35,24 @@ subplot(3,2,2)
 title('original hist')
 hist(im.flatten(), 256)
 
+subplot(3, 2, 3)
+gray()
+title('histogram equalized')
+imshow(hist_im)
+
+subplot(3, 2, 4)
+title('equalized hist')
+hist(hist_im.flatten(), 256)
+
+subplot(3, 2, 5)
+gray()
+title('self-quotient')
+imshow(uint8(Q))
+
+subplot(3, 2, 6)
+title('Self-quotient quotient')
+hist(Q.flatten(), 256)
+
+show()
+
+show()
